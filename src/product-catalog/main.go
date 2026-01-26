@@ -128,13 +128,11 @@ func main() {
 		}
 		log.Println("Shutdown meter provider")
 	}()
-
 	openfeature.AddHooks(otelhooks.NewTracesHook())
 	err := openfeature.SetProvider(flagd.NewProvider())
 	if err != nil {
 		log.Fatal(err)
 	}
-
 
 	err = runtime.Start(runtime.WithMinimumReadMemStatsInterval(time.Second))
 	if err != nil {
@@ -187,7 +185,6 @@ func readProductFiles() ([]*pb.Product, error) {
 	if err != nil {
 		return nil, err
 	}
-
 
 	jsonFiles := make([]fs.FileInfo, 0, len(entries))
 	for _, entry := range entries {
@@ -243,7 +240,6 @@ func (p *productCatalog) ListProducts(ctx context.Context, req *pb.Empty) (*pb.L
 
 	span.SetAttributes(
 		attribute.Int("app.products.count", len(catalog)),
-		
 	)
 	return &pb.ListProductsResponse{Products: catalog}, nil
 }
@@ -301,7 +297,6 @@ func (p *productCatalog) SearchProducts(ctx context.Context, req *pb.SearchProdu
 	return &pb.SearchProductsResponse{Results: result}, nil
 }
 
-
 func (p *productCatalog) checkProductFailure(ctx context.Context, id string) bool {
 	if id != "OLJCESPC7Z" {
 		return false
@@ -320,7 +315,6 @@ func createClient(ctx context.Context, svcAddr string) (*grpc.ClientConn, error)
 		grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 	)
 }
-
 
 
 
